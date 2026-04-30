@@ -72,7 +72,14 @@ export default function useOptions( nonce: string, restUrl: string ) {
 			await apiFetch( {
 				path: restUrl,
 				method: 'POST',
-				data: settings,
+				data: {
+					...settings,
+					syncTime: `${ settings.syncTime.hours
+						.toString()
+						.padStart( 2, '0' ) }:${ settings.syncTime.minutes
+						.toString()
+						.padStart( 2, '0' ) }`,
+				},
 			} );
 			setNotices( ( prev ) => [
 				...prev,

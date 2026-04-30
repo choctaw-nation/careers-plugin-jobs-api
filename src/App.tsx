@@ -6,6 +6,7 @@ import {
 	Button,
 	SnackbarList,
 	Spinner,
+	TimePicker,
 } from '@wordpress/components';
 import useOptions from './useOptions';
 
@@ -101,6 +102,15 @@ export default function App( { nonce, restUrl }: AppProps ) {
 						onChange={ ( val ) => {
 							updateField( 'syncInterval', val );
 						} }
+					/>
+					<TimePicker.TimeInput
+						is12Hour={ true }
+						label="Time for sync to run"
+						onChange={ ( val ) => {
+							console.log( 'Selected time:', val );
+							updateField( 'syncTime', val );
+						} }
+						value={ settings.syncTime }
 					/>
 				</PanelBody>
 			</Panel>

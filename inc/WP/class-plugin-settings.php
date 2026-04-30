@@ -37,6 +37,7 @@ class Plugin_Settings {
 		'clientId',
 		'clientSecret',
 		'syncInterval',
+		'syncTime',
 	);
 
 	/**
@@ -47,6 +48,7 @@ class Plugin_Settings {
 	public function get_defaults(): array {
 		$defaults                 = array_fill_keys( self::CREDENTIAL_FIELDS, '' );
 		$defaults['syncInterval'] = 'daily';
+		$defaults['syncTime']     = '00:00';
 		return $defaults;
 	}
 

@@ -94,7 +94,13 @@ class Rest_Router extends WP_REST_Controller {
 	 * @return WP_REST_Response
 	 */
 	public function get_settings( WP_REST_Request $request ): WP_REST_Response {
-		$settings = $this->plugin_settings->get_settings();
+		$settings             = $this->plugin_settings->get_settings();
+		$time                 = $settings['syncTime'];
+		$rest_time            = array(
+			'hours'   => (int) gmdate( 'H', strtotime( $time ) ),
+			'minutes' => (int) gmdate( 'i', strtotime( $time ) ),
+		);
+		$settings['syncTime'] = $rest_time;
 		return new WP_REST_Response( $settings, 200 );
 	}
 
