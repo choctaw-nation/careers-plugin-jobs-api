@@ -1,0 +1,16 @@
+/node_modules
+.DS_Store
+/vendor
+/.DS_Store
+/build
+*.zip
+
+.vscode/launch.json
+
+# Generated File
+inc/latest-jobs-fetch.php
+
+# Tests
+.wp-tests/
+html-coverage/
+.phpunit.result.cache

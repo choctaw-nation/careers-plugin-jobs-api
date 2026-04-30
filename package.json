@@ -1,0 +1,46 @@
+{
+	"name": "careers-plugin-jobs-api",
+	"version": "2.0.0",
+	"description": "A WordPress plugin to display job listings from the Careers API.",
+	"prettier": "@wordpress/prettier-config",
+	"browserslist": [
+		"extends @wordpress/browserslist-config"
+	],
+	"engines": {
+		"node": ">= 24"
+	},
+	"author": "Choctaw Nation of Oklahoma",
+	"files": [
+		"build",
+		"inc",
+		"README.md",
+		"LICENSE",
+		"CHANGELOG.md",
+		"careers-plugin-jobs-api.php",
+		"vendor"
+	],
+	"scripts": {
+		"build": "wp-scripts build",
+		"lint:css": "npx stylelint '**/*.scss' '**/*.css' --fix --allow-empty-input",
+		"lint:js": "npx eslint --fix",
+		"packages-update": "wp-scripts packages-update",
+		"plugin-zip": "wp-scripts build && wp-scripts plugin-zip",
+		"start": "wp-scripts start"
+	},
+	"devDependencies": {
+		"@eslint/compat": "^2.0.5",
+		"@wordpress/api-fetch": "^7.45.0",
+		"@wordpress/components": "^33.0.0",
+		"@wordpress/dom-ready": "^4.45.0",
+		"@wordpress/element": "^6.45.0",
+		"@wordpress/eslint-plugin": "^25.1.0",
+		"@wordpress/scripts": "^32.1.0",
+		"eslint": "^9",
+		"globals": "^17.5.0",
+		"prettier": "npm:wp-prettier@^3",
+		"stylelint": "^17.9.1",
+		"stylelint-config-standard-scss": "^17.0.0",
+		"stylelint-scss": "^7.0.0",
+		"typescript": "^6.0.0"
+	}
+}
