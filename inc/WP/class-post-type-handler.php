@@ -1,22 +1,18 @@
 <?php
 /**
- * WP Handler Class
- * Class to handle the WordPress-specific functionality for the Jobs API.
+ * Post Type Handler Class
+ * Alters the default 'post' post type to be used for the jobs and registers the needed taxonomies for the jobs.
  *
  * @package ChoctawNation
- * @subpackage Jobs
+ * @subpackage Jobs_API
  */
 
 namespace ChoctawNation\Jobs_API;
 
 /**
- * WP Handler Class
- * This class initializes the Jobs API and registers necessary post types and taxonomies.
- *
- * @package ChoctawNation
- * @subpackage Jobs
+ * Post Type Handler Class
  */
-class WP_Handler {
+class Post_Type_Handler {
 	/**
 	 * The taxonomy slugs
 	 *
@@ -26,13 +22,53 @@ class WP_Handler {
 		'job-details',
 		'locations',
 	);
+
+	/**
+	 * The post type to alter
+	 *
+	 * @var string $post_type
+	 */
+	public $post_type;
+
 	/**
 	 * Constructor
-	 * Initializes the WordPress handler.
+	 *
+	 * @param string $post_type The post type to alter (default: 'post')
 	 */
-	public function __construct() {
-		add_action( 'init', array( $this, 'alter_post_labels' ) );
-		$this->handle_taxonomies();
+	public function __construct( string $post_type = 'post' ) {
+		$this->post_type = $post_type;
+	}
+
+	/**
+	 * Registers the custom post type if it doesn't exist yet.
+	 */
+	public function maybe_register_cpt() {
+		if ( ! post_type_exists( $this->post_type ) ) {
+			add_action(
+				'init',
+				function () {
+					register_post_type(
+						$this->post_type,
+						array(
+							'public'       => true,
+							'show_in_menu' => true,
+							'show_in_rest' => true,
+						)
+					);
+				}
+			);
+			flush_rewrite_rules();
+		}
+	}
+
+	/**
+	 * Unregisters the custom post type if it exists.
+	 */
+	public function maybe_unregister_cpt() {
+		if ( post_type_exists( $this->post_type ) && 'post' !== $this->post_type ) {
+			unregister_post_type( $this->post_type );
+			flush_rewrite_rules();
+		}
 	}
 
 	/**
@@ -46,7 +82,7 @@ class WP_Handler {
 	 * Updates the labels for the default post type
 	 */
 	private function update_labels() {
-		$labels                     = get_post_type_labels( get_post_type_object( 'post' ) );
+		$labels                     = get_post_type_labels( get_post_type_object( $this->post_type ) );
 		$labels->name               = 'Jobs';
 		$labels->singular_name      = 'Job';
 		$labels->add_new            = 'Add New Job';
@@ -82,7 +118,7 @@ class WP_Handler {
 	public function register_taxonomies() {
 		register_taxonomy(
 			'job-details',
-			'post',
+			$this->post_type,
 			array(
 				'labels'       => array(
 					'name'                       => 'Job Details',
@@ -114,7 +150,7 @@ class WP_Handler {
 		);
 		register_taxonomy(
 			'location',
-			'post',
+			$this->post_type,
 			array(
 				'labels'            => array(
 					'name'                       => 'Locations',
