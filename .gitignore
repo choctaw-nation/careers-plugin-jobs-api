@@ -13,4 +13,5 @@ inc/latest-jobs-fetch.php
 # Tests
 .wp-tests/
 html-coverage/
+.phpunit.cache
 .phpunit.result.cache

@@ -13,6 +13,6 @@ jobs:
         uses: choctaw-nation/shared-github-actions/.github/workflows/deploy-release.yml@main
         with:
             should_build: true
-            plugin_name: # Enter plugin name here
+            plugin_name: careers-plugin-jobs-api # Enter plugin name here
             with_autoload: true
         secrets: inherit

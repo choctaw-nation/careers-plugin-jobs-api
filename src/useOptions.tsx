@@ -106,7 +106,7 @@ export default function useOptions( nonce: string, restUrl: string ) {
 
 	/** Update a single credential field for the given environment */
 	const updateField = useCallback(
-		( field: keyof Settings, value: string ) => {
+		( field: keyof Settings, value: string | TimeInputValue ) => {
 			setSettings( ( prev ) => ( {
 				...prev,
 				[ field ]: value,

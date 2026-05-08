@@ -14,16 +14,6 @@ namespace ChoctawNation\Jobs_API;
  */
 class Post_Type_Handler {
 	/**
-	 * The taxonomy slugs
-	 *
-	 * @var array $taxonomies
-	 */
-	public $taxonomies = array(
-		'job-details',
-		'locations',
-	);
-
-	/**
 	 * The post type to alter
 	 *
 	 * @var string $post_type
@@ -102,20 +92,12 @@ class Post_Type_Handler {
 	}
 
 	/**
-	 * Registers the needed taxonomies for the jobs.
-	 */
-	public function handle_taxonomies() {
-		foreach ( $this->taxonomies as $taxonomy ) {
-			if ( ! taxonomy_exists( $taxonomy ) ) {
-				add_action( 'init', array( $this, 'register_taxonomies' ) );
-			}
-		}
-	}
-
-	/**
 	 * Initializes the WordPress handler.
 	 */
 	public function register_taxonomies() {
+		if ( taxonomy_exists( 'job-details' ) && taxonomy_exists( 'location' ) && taxonomy_exists( 'work-location' ) ) {
+			return;
+		}
 		register_taxonomy(
 			'job-details',
 			$this->post_type,
@@ -181,5 +163,53 @@ class Post_Type_Handler {
 				'show_admin_column' => true,
 			)
 		);
+		register_taxonomy(
+			'work-location',
+			$this->post_type,
+			array(
+				'labels'            => array(
+					'name'                       => 'Work Locations',
+					'singular_name'              => 'Work Location',
+					'menu_name'                  => 'Work Locations',
+					'all_items'                  => 'All Work Locations',
+					'edit_item'                  => 'Edit Work Location',
+					'view_item'                  => 'View Work Location',
+					'update_item'                => 'Update Work Location',
+					'add_new_item'               => 'Add New Work Location',
+					'new_item_name'              => 'New Work Location Name',
+					'search_items'               => 'Search Work Locations',
+					'popular_items'              => 'Popular Work Locations',
+					'separate_items_with_commas' => 'Separate work locations with commas',
+					'add_or_remove_items'        => 'Add or remove work locations',
+					'choose_from_most_used'      => 'Choose from the most used work locations',
+					'not_found'                  => 'No work locations found',
+					'no_terms'                   => 'No work locations',
+					'items_list_navigation'      => 'Work Locations list navigation',
+					'items_list'                 => 'Work Locations list',
+					'back_to_items'              => '← Go to work locations',
+					'item_link'                  => 'Work Location Link',
+					'item_link_description'      => 'A link to a work location',
+				),
+				'public'            => true,
+				'show_in_menu'      => true,
+				'show_in_rest'      => true,
+				'show_admin_column' => true,
+			)
+		);
+	}
+
+	/**
+	 * Unregisters the taxonomies if they exist.
+	 */
+	public function unregister_taxonomies() {
+		if ( taxonomy_exists( 'job-details' ) ) {
+			unregister_taxonomy( 'job-details' );
+		}
+		if ( taxonomy_exists( 'location' ) ) {
+			unregister_taxonomy( 'location' );
+		}
+		if ( taxonomy_exists( 'work-location' ) ) {
+			unregister_taxonomy( 'work-location' );
+		}
 	}
 }

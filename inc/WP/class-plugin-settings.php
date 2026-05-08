@@ -101,16 +101,6 @@ class Plugin_Settings {
 	}
 
 	/**
-	 * Return the name of the currently active environment.
-	 *
-	 * @return string Either 'production' or 'staging'.
-	 */
-	public function get_active_environment(): string {
-		$settings = $this->get_settings();
-		return $settings['active_environment'] ?? 'production';
-	}
-
-	/**
 	 * Return the WordPress option key.
 	 *
 	 * @return string

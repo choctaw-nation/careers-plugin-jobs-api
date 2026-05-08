@@ -90,24 +90,25 @@ export default function App( { nonce, restUrl }: AppProps ) {
 					</div>
 				</PanelBody>
 				<PanelBody title="Sync Settings">
-					<RadioControl
-						help="Configure how often the site should sync with the ORC database."
-						label="Interval"
-						selected={ settings.syncInterval }
-						options={ [
-							{ label: 'Hourly', value: 'hourly' },
-							{ label: 'Twice Daily', value: 'twicedaily' },
-							{ label: 'Daily', value: 'daily' },
-						] }
-						onChange={ ( val ) => {
-							updateField( 'syncInterval', val );
-						} }
-					/>
+					<div style={ { marginBottom: '1rem' } }>
+						<RadioControl
+							help="Configure how often the site should sync with the ORC database."
+							label="Interval"
+							selected={ settings.syncInterval }
+							options={ [
+								{ label: 'Every Two Hours', value: 'bihourly' },
+								{ label: 'Twice Daily', value: 'twicedaily' },
+								{ label: 'Daily', value: 'daily' },
+							] }
+							onChange={ ( val ) => {
+								updateField( 'syncInterval', val );
+							} }
+						/>
+					</div>
 					<TimePicker.TimeInput
 						is12Hour={ true }
 						label="Time for sync to run"
 						onChange={ ( val ) => {
-							console.log( 'Selected time:', val );
 							updateField( 'syncTime', val );
 						} }
 						value={ settings.syncTime }

@@ -29,7 +29,7 @@ if ( ! file_exists( $cno_autoload_path ) ) {
 	add_action(
 		'admin_notices',
 		static function () {
-			echo '<div class="notice notice-error"><p>Choctaw Plugin Starter is missing required dependencies. Please run Composer install or deploy the plugin with its vendor directory included.</p></div>';
+			echo '<div class="notice notice-error"><p>Careers Plugin Jobs API is missing required dependencies. Please run Composer install or deploy the plugin with its vendor directory included.</p></div>';
 		}
 	);
 

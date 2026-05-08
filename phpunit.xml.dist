@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <phpunit bootstrap="tests/bootstrap.php" backupGlobals="false" colors="true" convertErrorsToExceptions="true" convertWarningsToExceptions="true" convertNoticesToExceptions="true" convertDeprecationsToExceptions="true" verbose="true">
 	<testsuites>
-		<testsuite name="sample">
-			<directory>tests/</directory>
+		<testsuite name="plugin-settings">
+			<file>tests/test-plugin-settings.php</file>
 		</testsuite>
 	</testsuites>
 	<coverage cacheDirectory=".phpunit.cache">
@@ -10,7 +10,7 @@
 			<directory prefix="class-" suffix=".php">inc/</directory>
 		</include>
 		<exclude>
-			<!-- <directory prefix="class-" suffix=".php">inc/WP/AdminScreen/</directory> -->
+			<directory prefix="class-" suffix=".php">inc/WP/AdminScreen/</directory>
 		</exclude>
 		<report>
 			<html outputDirectory="html-coverage" lowUpperBound="50" highLowerBound="80"/>

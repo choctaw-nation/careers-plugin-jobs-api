@@ -50,6 +50,22 @@ class Scheduler {
 	}
 
 	/**
+	 * Adds custom cron schedules.
+	 *
+	 * @param array $schedules Existing cron schedules.
+	 * @return array Modified cron schedules.
+	 */
+	public function add_custom_cron_schedules( array $schedules ): array {
+		if ( ! isset( $schedules['bihourly'] ) ) {
+			$schedules['bihourly'] = array(
+				'interval' => 2 * 60 * 60,
+				'display'  => 'Every Two Hours',
+			);
+		}
+		return $schedules;
+	}
+
+	/**
 	 * Schedules the cron job if not already scheduled.
 	 */
 	public function schedule_cron_jobs(): void {

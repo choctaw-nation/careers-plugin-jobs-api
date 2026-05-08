@@ -97,10 +97,9 @@ class Admin_Screen {
 			$asset_name,
 			'const cnoJobsApiSettings = ' . wp_json_encode(
 				array(
-					'environment'       => wp_get_environment_type(),
-					'activeEnvironment' => $this->plugin_settings->get_active_environment(),
-					'restBase'          => rest_url( 'cno-jobs-api/v1' ),
-					'nonce'             => wp_create_nonce( 'wp_rest' ),
+					'environment' => wp_get_environment_type(),
+					'restBase'    => rest_url( 'cno-jobs-api/v1' ),
+					'nonce'       => wp_create_nonce( 'wp_rest' ),
 				)
 			),
 			'before'

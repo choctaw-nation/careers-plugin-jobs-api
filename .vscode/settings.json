@@ -46,9 +46,13 @@
 		"docroot",
 		"featuredmedia",
 		"instantiator",
+		"kses",
 		"muplugins",
+		"reqs",
 		"Squiz",
 		"twicedaily",
+		"untrailingslashit",
+		"Upserts",
 		"wpengine"
 	],
 	"css.format.spaceAroundSelectorSeparator": true,
