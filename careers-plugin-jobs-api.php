@@ -2,8 +2,8 @@
 /**
  * Plugin Name: [CNO Careers] Jobs API
  * Plugin URI: https://github.com/choctaw-nation/careers-plugin-jobs-api
- * Description: This plugin handles data syncing between ORC jobs and the Careers site
- * Version: 2.0.0
+ * Description: A WordPress plugin to display job listings from the Careers API.
+ * Version: 2.0.1
  * Author: Choctaw Nation of Oklahoma
  * Author URI: https://www.choctawnation.com
  * Text Domain: cno
@@ -11,7 +11,7 @@
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Requires PHP: 8.2
  * Requires at least: 6.7.0
- * Tested up to: 6.9.0
+ * Tested up to: 7.0.0
  *
  * @package ChoctawNation
  * @subpackage Jobs_API

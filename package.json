@@ -1,6 +1,6 @@
 {
 	"name": "careers-plugin-jobs-api",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"description": "A WordPress plugin to display job listings from the Careers API.",
 	"prettier": "@wordpress/prettier-config",
 	"browserslist": [
@@ -28,19 +28,19 @@
 		"start": "wp-scripts start"
 	},
 	"devDependencies": {
-		"@eslint/compat": "^2.0.5",
-		"@wordpress/api-fetch": "^7.45.0",
-		"@wordpress/components": "^33.0.0",
-		"@wordpress/dom-ready": "^4.45.0",
-		"@wordpress/element": "^6.45.0",
-		"@wordpress/eslint-plugin": "^25.1.0",
-		"@wordpress/scripts": "^32.1.0",
+		"@eslint/compat": "^2.1.0",
+		"@wordpress/api-fetch": "^7.49.0",
+		"@wordpress/components": "^36.0.0",
+		"@wordpress/dom-ready": "^4.49.0",
+		"@wordpress/element": "^8.1.0",
+		"@wordpress/eslint-plugin": "^25.5.0",
+		"@wordpress/scripts": "^32.5.0",
 		"eslint": "^9",
-		"globals": "^17.5.0",
+		"globals": "^17.7.0",
 		"prettier": "npm:wp-prettier@^3",
-		"stylelint": "^17.9.1",
+		"stylelint": "^17.13.0",
 		"stylelint-config-standard-scss": "^17.0.0",
-		"stylelint-scss": "^7.0.0",
-		"typescript": "^6.0.0"
+		"stylelint-scss": "^7.2.0",
+		"typescript": "^6.0.3"
 	}
 }

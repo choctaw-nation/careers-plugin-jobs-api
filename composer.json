@@ -1,8 +1,8 @@
 {
-	"name": "choctaw-nation/choctaw-plugin-template",
-	"description": "A plugin template for the Choctaw nation",
+	"name": "choctaw-nation/careers-plugin-jobs-api",
+	"description": "A WordPress plugin to display job listings from the Careers API.",
 	"type": "project",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"autoload": {
 		"classmap": [
 			"inc/"
