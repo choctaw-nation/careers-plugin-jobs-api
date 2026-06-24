@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace ChoctawNation\Jobs_API\Data;
 
-use InvalidArgumentException;
 use Error;
 
 /**
