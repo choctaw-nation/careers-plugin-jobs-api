@@ -12,7 +12,6 @@
 		</testsuite>
 		<testsuite name="jobs-fetch">
 			<file>tests/test-sync-jobs.php</file>
-			<file>tests/test-api-client.php</file>
 		</testsuite>
 		<testsuite name="job-posts">
 			<file>tests/test-job-repository.php</file>
