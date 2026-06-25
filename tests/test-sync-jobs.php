@@ -14,10 +14,39 @@ use WP_UnitTestCase;
  * Bootstrap tests for the Sync_Jobs class.
  */
 class Test_Sync_Jobs extends WP_UnitTestCase {
+	/**
+	 * Sync_Jobs instance under test.
+	 *
+	 * @var Sync_Jobs
+	 */
 	private Sync_Jobs $sync_jobs;
+
+	/**
+	 * Notifier mock.
+	 *
+	 * @var \ChoctawNation\Jobs_API\WP\Notifier|\PHPUnit\Framework\MockObject\MockObject
+	 */
 	private $notifier;
+
+	/**
+	 * Job_Repository mock.
+	 *
+	 * @var \ChoctawNation\Jobs_API\Services\Job_Repository|\PHPUnit\Framework\MockObject\MockObject
+	 */
 	private $job_repository;
+
+	/**
+	 * Api_Client mock.
+	 *
+	 * @var \ChoctawNation\Jobs_API\Http\Api_Client|\PHPUnit\Framework\MockObject\MockObject
+	 */
 	private $api_client;
+
+	/**
+	 * Last_Load_Transient mock.
+	 *
+	 * @var \ChoctawNation\Jobs_API\Jobs\Last_Load_Transient|\PHPUnit\Framework\MockObject\MockObject
+	 */
 	private $transient_helper;
 
 	/**
@@ -52,6 +81,9 @@ class Test_Sync_Jobs extends WP_UnitTestCase {
 		$this->sync_jobs->fetch_jobs();
 	}
 
+	/**
+	 * Test that sync_jobs does not run when last load transient is recent.
+	 */
 	public function test_sync_jobs_will_not_run_if_last_load_transient_is_recent() {
 		// Set the last load transient to a recent time (e.g., 5 minutes ago)
 		$recent_time = new \DateTimeImmutable( '-5 minutes' );

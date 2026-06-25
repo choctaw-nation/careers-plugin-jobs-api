@@ -14,7 +14,9 @@ use WP_UnitTestCase;
  * Bootstrap tests for the Scheduler class.
  */
 class Test_Scheduler extends WP_UnitTestCase {
-
+	/**
+	 * Test that the bihourly schedule is created with correct interval.
+	 */
 	public function test_bihourly_schedule_is_created() {
 		$scheduler = new Scheduler( 'daily', '00:00' );
 		$schedules = $scheduler->add_custom_cron_schedules( array() );
@@ -23,6 +25,9 @@ class Test_Scheduler extends WP_UnitTestCase {
 		$this->assertEquals( 'Every Two Hours', $schedules['bihourly']['display'] );
 	}
 
+	/**
+	 * Test that cron jobs are scheduled for fetch and delete keys.
+	 */
 	public function test_cron_jobs_are_scheduled() {
 		$scheduler = new Scheduler( 'daily', '00:00' );
 		$scheduler->schedule_cron_jobs();

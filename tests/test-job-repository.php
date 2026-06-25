@@ -14,18 +14,32 @@ use WP_UnitTestCase;
  * Bootstrap tests for the Job_Repository class.
  */
 class Test_Job_Repository extends WP_UnitTestCase {
+	/**
+	 * Job_Repository instance under test.
+	 *
+	 * @var Job_Repository
+	 */
 	private Job_Repository $job_repository;
 
+	/**
+	 * Set up the test environment.
+	 */
 	public function set_up(): void {
 		parent::set_up();
 		$this->job_repository = new Job_Repository( 'post', 'choctaw_jobs_fetched_ids', $this->createMock( \ChoctawNation\Jobs_API\Jobs\Job_Description::class ) );
 	}
 
+	/**
+	 * Tear down the test environment.
+	 */
 	public function tear_down(): void {
 		delete_transient( $this->job_repository->transient_key );
 		parent::tear_down();
 	}
 
+	/**
+	 * Test that stale jobs are deleted from the repository.
+	 */
 	public function test_stale_jobs_are_deleted() {
 		// Create a job post to simulate an existing job.
 		$jobs_to_create      = 10; // Total jobs to create.
@@ -61,6 +75,14 @@ class Test_Job_Repository extends WP_UnitTestCase {
 		$this->assertEquals( $diff, count( $remaining_posts ), 'The number of remaining job posts does not match the expected count after deletion.' );
 	}
 
+	/**
+	 * Prepare N jobs to be flagged as deleted and store their requisition IDs.
+	 *
+	 * @param int   $n       Number of jobs to select for deletion.
+	 * @param array $job_ids Array of job post IDs.
+	 *
+	 * @return array List of job IDs selected for deletion.
+	 */
 	private function prep_n_jobs_to_delete( int $n, array $job_ids ): array {
 		$random_keys    = array_rand( $job_ids, $n );
 		$jobs_to_delete = array_map( fn( $key ) => $job_ids[ $key ], $random_keys );
@@ -68,7 +90,7 @@ class Test_Job_Repository extends WP_UnitTestCase {
 			function ( $job_id ) {
 				$req_id = get_post_meta( $job_id, $this->job_repository->req_id_meta_key, true );
 				if ( ! is_numeric( $req_id ) ) {
-					throw new \Exception( "Requisition ID for job ID $job_id is not numeric." );
+					throw new \Exception( 'Requisition ID for job ID ' . (int) $job_id . ' is not numeric.' );
 				}
 				return (int) $req_id;
 			},
