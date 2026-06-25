@@ -43,6 +43,7 @@
 		"alignfull",
 		"autoloading",
 		"classmap",
+		"datetimeimmutable",
 		"docroot",
 		"featuredmedia",
 		"instantiator",

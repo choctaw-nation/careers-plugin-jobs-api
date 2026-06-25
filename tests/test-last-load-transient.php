@@ -13,4 +13,34 @@ use WP_UnitTestCase;
 /**
  * Bootstrap tests for the Last_Load_Transient class.
  */
-class Test_Last_Load_Transient extends WP_UnitTestCase {}
+class Test_Last_Load_Transient extends WP_UnitTestCase {
+	private Last_Load_Transient $transient;
+	public function set_up() {
+		parent::set_up();
+		$this->transient = new Last_Load_Transient();
+	}
+
+	public function tear_down() {
+		parent::tear_down();
+		delete_transient( $this->transient->transient_key );
+	}
+
+	public function test_normalize_timestamp_properly_removes_extra_microseconds() {
+		$timestamp  = '2024-06-01T12:34:56.7891234';
+		$normalized = $this->transient->normalize_timestamp( $timestamp );
+		$this->assertEquals( '2024-06-01T12:34:56.789123', $normalized );
+	}
+
+	public function test_transient_returns_datetimeimmutable_object() {
+		$timestamp = '2024-06-01T12:34:56.7891234';
+		set_transient( $this->transient->transient_key, $timestamp, $this->transient->last_load_refresh_rate );
+		$datetime = $this->transient->get_transient();
+		$this->assertInstanceOf( \DateTimeImmutable::class, $datetime );
+		$this->assertEquals( '2024-06-01 12:34:56.789123', $datetime->format( 'Y-m-d H:i:s.u' ) );
+	}
+
+	public function test_transient_returns_false_when_not_set() {
+		$datetime = $this->transient->get_transient();
+		$this->assertFalse( $datetime );
+	}
+}

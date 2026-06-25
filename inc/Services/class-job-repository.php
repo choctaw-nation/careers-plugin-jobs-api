@@ -29,14 +29,14 @@ class Job_Repository {
 	 *
 	 * @var string $transient_key
 	 */
-	private string $transient_key;
+	public string $transient_key;
 
 	/**
 	 * The meta key for storing the requisition ID in post meta.
 	 *
 	 * @var string $req_id_meta_key
 	 */
-	private string $req_id_meta_key;
+	public string $req_id_meta_key;
 
 	/**
 	 * The Job Description instance for building job post content.
@@ -118,11 +118,11 @@ class Job_Repository {
 				'post_content'  => $this->job_description_builder->build_post_content( $job_post ),
 				'post_excerpt'  => $this->job_description_builder->build_excerpt( $job_post->description_str ),
 				'meta_input'    => array(
-					'requisitionId' => absint( $job_post->requisition_id ),
+					'requisitionId' => absint( $job_post->requisition_number ),
 				),
 			);
-			if ( array_key_exists( $job_post->requisition_id, $existing_jobs ) ) {
-				$post_arr['ID'] = $existing_jobs[ $job_post->requisition_id ];
+			if ( array_key_exists( $job_post->requisition_number, $existing_jobs ) ) {
+				$post_arr['ID'] = $existing_jobs[ $job_post->requisition_number ];
 			}
 
 			$post_id = wp_insert_post( $post_arr, true );
@@ -137,16 +137,30 @@ class Job_Repository {
 	 * Deletes job posts that are not in the provided list of current job IDs.
 	 */
 	public function delete_stale_jobs() {
-		$existing_jobs    = $this->fetch_all_jobs( true, 'publish' );
-		$existing_job_ids = array_map(
-			function ( $job_id ) {
-				$req_id = get_post_meta( $job_id, $this->req_id_meta_key, true );
-				return absint( $req_id );
-			},
-			$existing_jobs
-		);
-		$current_job_ids  = $this->get_stored_job_ids();
-		$stale_job_ids    = array_diff( $existing_job_ids, $current_job_ids );
+		$existing_jobs       = $this->fetch_all_jobs( true, 'publish' );
+		$existing_job_ids    = array();
+		$existing_job_id_map = array();
+
+		foreach ( $existing_jobs as $job_id ) {
+			$req_id = absint( get_post_meta( $job_id, $this->req_id_meta_key, true ) );
+
+			if ( ! $req_id ) {
+				continue;
+			}
+
+			$existing_job_ids[]             = $req_id;
+			$existing_job_id_map[ $req_id ] = $job_id;
+		}
+
+		$current_job_ids = $this->get_stored_job_ids();
+		$stale_req_ids   = array_diff( $existing_job_ids, $current_job_ids );
+		$stale_job_ids   = array();
+
+		foreach ( $stale_req_ids as $stale_req_id ) {
+			if ( isset( $existing_job_id_map[ $stale_req_id ] ) ) {
+				$stale_job_ids[] = $existing_job_id_map[ $stale_req_id ];
+			}
+		}
 
 		foreach ( $stale_job_ids as $job_id ) {
 			wp_delete_post( $job_id, true );

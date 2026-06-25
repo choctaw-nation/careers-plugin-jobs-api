@@ -20,7 +20,7 @@ class Last_Load_Transient {
 	 *
 	 * @var string $transient_key
 	 */
-	private string $transient_key;
+	public string $transient_key;
 
 	/**
 	 * The timezone for handling timestamps.

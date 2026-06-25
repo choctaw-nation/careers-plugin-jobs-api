@@ -33,8 +33,8 @@
 		}
 	],
 	"scripts": {
-		"phpcs": "phpcs inc/ careers-plugin-jobs-api.php --extensions=php",
-		"phpcbf": "phpcbf inc/ careers-plugin-jobs-api.php --extensions=php",
+		"phpcs": "phpcs inc/ tests/ careers-plugin-jobs-api.php --extensions=php",
+		"phpcbf": "phpcbf inc/ tests/ careers-plugin-jobs-api.php --extensions=php",
 		"test": "phpunit",
 		"install-tests": [
 			"chmod +x bin/local-mysql-socket.sh",
