@@ -121,7 +121,7 @@ class Plugin_Loader {
 		// schedule cron job
 		$settings  = $this->plugin_settings->get_settings();
 		$scheduler = new WP\Scheduler( $settings['syncInterval'] ?? 'daily', $settings['syncTime'] ?? '00:00' );
-		add_filter( 'cron_schedules', array( $scheduler, 'add_custom_cron_schedules' ) );
+		add_filter( 'cron_schedules', array( $scheduler, 'add_custom_cron_schedules' ) ); // phpcs:ignore WordPress.WP.CronInterval.ChangeDetected
 		$scheduler->schedule_cron_jobs();
 		$this->wire_the_cron_jobs( $settings );
 	}

@@ -66,7 +66,8 @@ class Sync_Jobs {
 	}
 
 	/**
-	 * Fetches jobs from the external API, compares with local jobs, and updates/creates as needed. Also stores fetched job IDs in transient for later comparison when deleting.
+	 * Fetches jobs from the external API, compares with local jobs, and updates/creates as needed.
+	 * Also stores fetched job IDs in transient for later comparison when deleting.
 	 *
 	 * @throws Error When the API fetch fails or returns an error.
 	 */
@@ -83,10 +84,11 @@ class Sync_Jobs {
 				throw new Error( esc_textarea( $job_posts->get_error_message() ) );
 			}
 			$job_data = Job_Data::from_array( $job_posts );
-			if ( $last_load && ( $this->transient_helper->normalize_timestamp( $job_data->last_data_load ) !== $last_load->format( $this->transient_helper->datetime_format ) ) ) {
+			if ( ! $last_load || $this->transient_helper->normalize_timestamp( $job_data->last_data_load ) !== $last_load->format( $this->transient_helper->datetime_format ) ) {
 				// Achukkowa server has timestamp (and thus probably new data).
-				// Update transient and store job IDs for comparison when deleting old jobs
+				// Update transient
 				$this->transient_helper->set_transient( $job_data->last_data_load );
+				// store fetched job IDs in transient for later comparison when deleting
 				$this->store_job_ids( $job_data->items );
 			}
 			$this->job_repository->upsert_jobs( $job_data->items );
@@ -94,7 +96,6 @@ class Sync_Jobs {
 			$this->notifier->send_notification( 'Careers ORC Job Sync Failed', $e->getMessage() );
 			return;
 		}
-		// 3.) store fetched job IDs in transient for later comparison when deleting
 	}
 
 	/**
@@ -104,7 +105,7 @@ class Sync_Jobs {
 	 */
 	private function store_job_ids( array $jobs ) {
 		$fetched_ids = array_map(
-			fn( Job_Item $job ) => $job->requisition_id,
+			fn( Job_Item $job ) => (int) $job->requisition_number,
 			$jobs
 		);
 		try {

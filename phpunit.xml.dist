@@ -4,6 +4,21 @@
 		<testsuite name="plugin-settings">
 			<file>tests/test-plugin-settings.php</file>
 		</testsuite>
+		<testsuite name="plugin-loader">
+			<file>tests/test-plugin-loader.php</file>
+		</testsuite>
+		<testsuite name="scheduler">
+			<file>tests/test-scheduler.php</file>
+		</testsuite>
+		<testsuite name="jobs-fetch">
+			<file>tests/test-sync-jobs.php</file>
+		</testsuite>
+		<testsuite name="job-posts">
+			<file>tests/test-job-repository.php</file>
+		</testsuite>
+		<testsuite name="utils">
+			<file>tests/test-last-load-transient.php</file>
+		</testsuite>
 	</testsuites>
 	<coverage cacheDirectory=".phpunit.cache">
 		<include>
@@ -11,6 +26,7 @@
 		</include>
 		<exclude>
 			<directory prefix="class-" suffix=".php">inc/WP/AdminScreen/</directory>
+			<file >inc/WP/class-notifier.php</file>
 		</exclude>
 		<report>
 			<html outputDirectory="html-coverage" lowUpperBound="50" highLowerBound="80"/>
