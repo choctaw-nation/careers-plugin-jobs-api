@@ -3,7 +3,7 @@
  * Plugin Name: [CNO Careers] Jobs API
  * Plugin URI: https://github.com/choctaw-nation/careers-plugin-jobs-api
  * Description: A WordPress plugin to display job listings from the Careers API.
- * Version: 2.0.1
+ * Version: 3.0.0
  * Author: Choctaw Nation of Oklahoma
  * Author URI: https://www.choctawnation.com
  * Text Domain: cno
