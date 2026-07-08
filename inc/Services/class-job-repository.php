@@ -66,10 +66,22 @@ class Job_Repository {
 	 * @throws Error When there is an error storing the job IDs in the transient.
 	 */
 	public function store_job_ids( array $job_ids ) {
+		$current_ids = get_transient( $this->transient_key );
+		if ( is_array( $current_ids ) && $current_ids === $job_ids ) {
+			return;
+		}
+
 		$stored = set_transient( $this->transient_key, $job_ids, DAY_IN_SECONDS );
 		if ( false === $stored ) {
-			throw new Error( 'Storing job IDs in transient returned false. This means either the transient could not be set or there was no change.' );
+			throw new Error( 'Storing job IDs in transient returned false.' );
 		}
+	}
+
+	/**
+	 * Checks whether the transient containing fetched job IDs is present.
+	 */
+	public function has_stored_job_ids(): bool {
+		return false !== get_transient( $this->transient_key );
 	}
 
 	/**
@@ -137,6 +149,10 @@ class Job_Repository {
 	 * Deletes job posts that are not in the provided list of current job IDs.
 	 */
 	public function delete_stale_jobs() {
+		if ( ! $this->has_stored_job_ids() ) {
+			return;
+		}
+
 		$existing_jobs       = $this->fetch_all_jobs( true, 'publish' );
 		$existing_job_ids    = array();
 		$existing_job_id_map = array();
