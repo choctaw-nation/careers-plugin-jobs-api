@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.0.1 - [July 8, 2026]
+
+-   Fixed: Jobs aren't immediately deleted after fetch
+
 ## v3.0.0 - [July 2, 2026]
 
 -   Breaking: New Jobs endpoint

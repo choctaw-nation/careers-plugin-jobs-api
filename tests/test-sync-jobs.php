@@ -94,4 +94,28 @@ class Test_Sync_Jobs extends WP_UnitTestCase {
 
 		$this->sync_jobs->fetch_jobs();
 	}
+
+	/**
+	 * Test that fetched job IDs are refreshed even if lastDataLoad is unchanged.
+	 */
+	public function test_fetch_jobs_stores_ids_when_last_data_load_is_unchanged() {
+		$existing_last_load = new \DateTimeImmutable( '2026-07-08 00:00:00', $this->transient_helper->timezone );
+
+		$this->transient_helper->method( 'get_transient' )->willReturn( $existing_last_load );
+		$this->transient_helper->method( 'normalize_timestamp' )->willReturn( $existing_last_load->format( $this->transient_helper->datetime_format ) );
+
+		$this->api_client->method( 'fetch_jobs' )->willReturn(
+			array(
+				'count'        => '0',
+				'lastDataLoad' => $existing_last_load->format( $this->transient_helper->datetime_format ),
+				'items'        => array(),
+			)
+		);
+
+		$this->job_repository->expects( $this->once() )->method( 'store_job_ids' )->with( array() );
+		$this->job_repository->expects( $this->once() )->method( 'upsert_jobs' )->with( array() );
+		$this->transient_helper->expects( $this->never() )->method( 'set_transient' );
+
+		$this->sync_jobs->fetch_jobs();
+	}
 }

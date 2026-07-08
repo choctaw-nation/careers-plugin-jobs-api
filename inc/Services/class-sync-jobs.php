@@ -88,9 +88,10 @@ class Sync_Jobs {
 				// Achukkowa server has timestamp (and thus probably new data).
 				// Update transient
 				$this->transient_helper->set_transient( $job_data->last_data_load );
-				// store fetched job IDs in transient for later comparison when deleting
-				$this->store_job_ids( $job_data->items );
 			}
+			// Refresh fetched job IDs after every successful API read so delete logic
+			// does not operate on expired transient data.
+			$this->store_job_ids( $job_data->items );
 			$this->job_repository->upsert_jobs( $job_data->items );
 		} catch ( Error $e ) {
 			$this->notifier->send_notification( 'Careers ORC Job Sync Failed', $e->getMessage() );

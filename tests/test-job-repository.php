@@ -76,6 +76,40 @@ class Test_Job_Repository extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Test that stale deletion is skipped when stored API IDs transient is missing.
+	 */
+	public function test_stale_jobs_are_not_deleted_when_transient_is_missing() {
+		$jobs_to_create   = 4;
+		$existing_job_ids = $this->factory->post->create_many(
+			$jobs_to_create,
+			array(
+				'post_type'   => 'post',
+				'post_status' => 'publish',
+			)
+		);
+
+		$requisition_id = 1000;
+		foreach ( $existing_job_ids as $job_id ) {
+			update_post_meta( $job_id, $this->job_repository->req_id_meta_key, $requisition_id );
+			++$requisition_id;
+		}
+
+		delete_transient( $this->job_repository->transient_key );
+
+		$this->job_repository->delete_stale_jobs();
+
+		$remaining_posts = get_posts(
+			array(
+				'post_type'   => 'post',
+				'post_status' => 'publish',
+				'fields'      => 'ids',
+			)
+		);
+
+		$this->assertCount( $jobs_to_create, $remaining_posts );
+	}
+
+	/**
 	 * Prepare N jobs to be flagged as deleted and store their requisition IDs.
 	 *
 	 * @param int   $n       Number of jobs to select for deletion.
