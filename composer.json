@@ -2,7 +2,7 @@
 	"name": "choctaw-nation/careers-plugin-jobs-api",
 	"description": "A WordPress plugin to display job listings from the Careers API.",
 	"type": "project",
-	"version": "3.0.0",
+	"version": "3.0.1",
 	"autoload": {
 		"classmap": [
 			"inc/"
