@@ -104,7 +104,7 @@ class Api_Client {
 	public function fetch_jobs(): ?array {
 		try {
 			$token    = $this->get_auth();
-			$response = wp_remote_get( $this->endpoint_base . '/fusion/job-reqs', array( 'headers' => array( 'Authorization' => $token ) ) );
+			$response = wp_remote_get( $this->endpoint_base . '/hcm/jobs/requisitions', array( 'headers' => array( 'Authorization' => $token ) ) );
 			if ( is_wp_error( $response ) ) {
 				throw new Error( esc_textarea( $response->get_error_message() ) );
 			}
